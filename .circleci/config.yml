@@ -7,7 +7,7 @@ executors:
 
   ghr-executor:
     docker:
-      - image: opennms/ghr:0.12.0-b1
+      - image: quay.io/bluebird/ghr:0.16.2
 
 workflows:
   build-deploy:
@@ -54,6 +54,7 @@ jobs:
           at: ~/
       - run:
           name: Push UI bundle archive to GitHub
+          # ensure GITHUB_TOKEN is properly exposed beforehand, otherwise it does not work
           command: |
             source release.version
             ghr -replace -u "${GITHUB_USER}" -r "${GITHUB_REPO}" -n "${codename}" "v${release}" build/ui-bundle.zip
